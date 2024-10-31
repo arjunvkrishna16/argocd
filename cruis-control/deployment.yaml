@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-cruis-control
+spec:
+  minReadySeconds: 1
+  revisionHistoryLimit: 2
+  progressDeadlineSeconds: 60
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: kafka-cruis-control
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: kafka-cruis-control
+    spec:
+      containers:
+      - name: kafka-cruis-control
+        image: arjunvkrishna/cruise-control:1.0.4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: ui
+          containerPort: 8090
+          protocol: TCP
+        - name: api
+          containerPort: 42675
+          protocol: TCP
+        env:
+        - name: PODINFO_UI_COLOR
+          value: "#34577c"
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
