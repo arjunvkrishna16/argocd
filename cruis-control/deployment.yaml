@@ -25,7 +25,7 @@ spec:
       - env:
         - name: BOOTSTRAP_SERVERS
           value: kafka.kafka.svc.cluster.local:9092
-        image: eu.gcr.io/inse-management-prod/r-and-d/kafka-cruise-control:v1
+        image: arjunvkrishna/cruise-control:1.0.5
         imagePullPolicy: Always
         name: kafka-cruise-control
         resources:
