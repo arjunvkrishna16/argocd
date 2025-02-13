@@ -50,8 +50,6 @@ spec:
           name: config-volume
           subPath: log4j.properties
       dnsPolicy: ClusterFirst
-      nodeSelector:
-        inseinc.com/workload-type: virgo-platform
       restartPolicy: Always
       schedulerName: default-scheduler
       terminationGracePeriodSeconds: 30
