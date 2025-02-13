@@ -1,0 +1,189 @@
+apiVersion: v1
+data:
+  capacity.json: |
+    {
+      "brokerCapacities":[
+        {
+          "brokerId": "-1",
+          "capacity": {
+            "DISK": "51000",
+            "CPU": "25",
+            "NW_IN": "7000",
+            "NW_OUT": "7000"
+          },
+          "doc": "This is the default capacity. Capacity unit used for disk is in MB, cpu is in number of cores, network throughput is in KB."
+        }
+      ]
+    }
+  clusterConfigs.json: |
+    {
+      "an.example.cluster.config": false,
+      "min.insync.replicas": 2
+    }
+  cruisecontrol.properties: |
+    anomaly.detection.goals=com.linkedin.kafka.cruisecontrol.analyzer.goals.LeaderBytesInDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.LeaderReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.PotentialNwOutGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.MinTopicLeadersPerBrokerGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkInboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuCapacityGoal
+    anomaly.detection.interval.ms=90000
+    anomaly.notifier.class=com.linkedin.kafka.cruisecontrol.detector.notifier.SelfHealingNotifier
+    bootstrap.servers=kafka.kafka.svc.cluster.local:9092
+    broker.metric.sample.store.topic=__KafkaCruiseControlModelTrainingSamples
+    broker.metrics.window.ms=90000
+    broker.sample.store.topic.partition.count=8
+    broker.failure.self.healing.threshold.ms=90000
+    broker.failure.check.interval.ms=30000
+    broker.failure.detection.backoff.ms=30000
+    broker.failure.self.healing.enabled=true
+    broker.failure.alert.threshold.ms=90000
+    client.id=cruise-control
+    cluster.configs.file=config/clusterConfigs.json
+    completed.cruise.control.admin.user.task.retention.time.ms=604800000
+    completed.cruise.control.monitor.user.task.retention.time.ms=86400000
+    completed.kafka.admin.user.task.retention.time.ms=604800000
+    completed.kafka.monitor.user.task.retention.time.ms=86400000
+    completed.user.task.retention.time.ms=86400000
+    connections.max.idle.ms=540000
+    cpu.balance.threshold=1
+    cpu.capacity.threshold=0.5
+    cpu.low.utilization.threshold=0.2
+    cruise.control.metrics.topic.replication.factor=3
+    cruise.control.selfheal.interval.ms=90000
+    cruise.control.proposal.generation.interval.ms=90000
+    default.goals=com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.MinTopicLeadersPerBrokerGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkInboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.PotentialNwOutGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkInboundUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.TopicReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.LeaderReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.LeaderBytesInDistributionGoal
+    default.replica.movement.strategies=com.linkedin.kafka.cruisecontrol.executor.strategy.BaseReplicaMovementStrategy
+    demotion.history.retention.time.ms=1209600000
+    disk.balance.threshold=1
+    disk.capacity.threshold=0.8
+    disk.low.utilization.threshold=0
+    execution.progress.check.interval.ms=10000
+    goals=com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.MinTopicLeadersPerBrokerGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkInboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.PotentialNwOutGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkInboundUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.TopicReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.LeaderReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.LeaderBytesInDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.kafkaassigner.KafkaAssignerDiskUsageDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.kafkaassigner.KafkaAssignerEvenRackAwareGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.PreferredLeaderElectionGoal
+    hard.goals=com.linkedin.kafka.cruisecontrol.analyzer.goals.TopicReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaDistributionGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.RackAwareGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.MinTopicLeadersPerBrokerGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.ReplicaCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.DiskCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkInboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.NetworkOutboundCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.CpuCapacityGoal
+    intra.broker.goals=com.linkedin.kafka.cruisecontrol.analyzer.goals.IntraBrokerDiskCapacityGoal,com.linkedin.kafka.cruisecontrol.analyzer.goals.IntraBrokerDiskUsageDistributionGoal
+    kafka.broker.failure.detection.enable=true
+    max.active.user.tasks=5
+    max.cached.completed.cruise.control.admin.user.tasks=30
+    max.cached.completed.cruise.control.monitor.user.tasks=20
+    max.cached.completed.kafka.admin.user.tasks=30
+    max.cached.completed.kafka.monitor.user.tasks=20
+    max.cached.completed.user.tasks=25
+    max.num.cluster.partition.movements=1250
+    max.replicas.per.broker=10000
+    metric.anomaly.analyzer.metrics=BROKER_PRODUCE_LOCAL_TIME_MS_50TH,BROKER_PRODUCE_LOCAL_TIME_MS_999TH,BROKER_CONSUMER_FETCH_LOCAL_TIME_MS_50TH,BROKER_CONSUMER_FETCH_LOCAL_TIME_MS_999TH,BROKER_FOLLOWER_FETCH_LOCAL_TIME_MS_50TH,BROKER_FOLLOWER_FETCH_LOCAL_TIME_MS_999TH,BROKER_LOG_FLUSH_TIME_MS_50TH,BROKER_LOG_FLUSH_TIME_MS_999TH
+    metric.anomaly.detection.interval.ms=200000
+    metric.anomaly.finder.class=com.linkedin.kafka.cruisecontrol.detector.KafkaMetricAnomalyFinder
+    metric.anomaly.percentile.lower.threshold=10
+    metric.anomaly.percentile.upper.threshold=60
+    metric.sampler.class=com.linkedin.kafka.cruisecontrol.monitor.sampling.CruiseControlMetricsReporterSampler
+    metric.sampler.partition.assignor.class=com.linkedin.kafka.cruisecontrol.monitor.sampling.DefaultMetricSamplerPartitionAssignor
+    metric.sampling.interval.ms=200000
+    min.samples.per.broker.metrics.window=1
+    min.samples.per.partition.metrics.window=1
+    min.valid.partition.ratio=0.9
+    network.inbound.balance.threshold=1
+    network.inbound.capacity.threshold=0.5
+    network.inbound.low.utilization.threshold=0
+    network.outbound.balance.threshold=1
+    network.outbound.capacity.threshold=0.5
+    network.outbound.low.utilization.threshold=0
+    num.broker.metrics.windows=50
+    num.concurrent.intra.broker.partition.movements=2
+    num.concurrent.leader.movements=1000
+    num.concurrent.partition.movements.per.broker=5
+    num.partition.metrics.windows=50
+    num.proposal.precompute.threads=1
+    leader.replica.movement.strategy=com.linkedin.kafka.cruisecontrol.executor.strategy.PrioritizeMinLeadershipMovementStrategy
+    num.sample.loading.threads=8
+    partition.metric.sample.store.topic=__KafkaCruiseControlPartitionMetricSamples
+    partition.metrics.window.ms=300000
+    partition.sample.store.topic.partition.count=8
+    #prometheus.server.endpoint=thanos-query.prometheus:9090
+    proposal.expiration.ms=30000
+    removal.history.retention.time.ms=1209600000
+    replica.count.balance.threshold=1.1
+    replica.movement.strategies=com.linkedin.kafka.cruisecontrol.executor.strategy.PostponeUrpReplicaMovementStrategy,com.linkedin.kafka.cruisecontrol.executor.strategy.PrioritizeLargeReplicaMovementStrategy,com.linkedin.kafka.cruisecontrol.executor.strategy.PrioritizeSmallReplicaMovementStrategy,com.linkedin.kafka.cruisecontrol.executor.strategy.PrioritizeMinIsrWithOfflineReplicasStrategy,com.linkedin.kafka.cruisecontrol.executor.strategy.PrioritizeOneAboveMinIsrWithOfflineReplicasStrategy,com.linkedin.kafka.cruisecontrol.executor.strategy.BaseReplicaMovementStrategy
+    rebalancing.enabled=true
+    sample.store.class=com.linkedin.kafka.cruisecontrol.monitor.sampling.KafkaSampleStore
+    sample.store.topic.replication.factor=3
+    sampling.allow.cpu.capacity.estimation=true
+    self.healing.disk.failure.enabled=true
+    self.healing.enabled=true
+    self.healing.exclude.recently.demoted.brokers=true
+    self.healing.exclude.recently.removed.brokers=false
+    self.healing.goal.violation.enabled=true
+    self.healing.maintenance.event.enabled=true
+    self.healing.metric.anomaly.enabled=true
+    self.healing.topic.anomaly.enabled=true
+    self.healing.target.topic.replication.factor=3
+    self.healing.policy=MINIMIZE_REPLICA_MOVEMENTS
+    topic.anomaly.finder.class=com.linkedin.kafka.cruisecontrol.detector.TopicReplicationFactorAnomalyFinder
+    topic.config.provider.class=com.linkedin.kafka.cruisecontrol.config.KafkaAdminTopicConfigProvider
+    topics.excluded.from.partition.movement=__consumer_offsets.*|__amazon_msk_canary.*|__amazon_msk_connect.*|__KafkaCruiseControl.*
+    two.step.purgatory.max.requests=25
+    two.step.purgatory.retention.time.ms=1209600000
+    two.step.verification.enabled=false
+    vertx.enabled=false
+    webserver.accesslog.enabled=true
+    webserver.api.urlprefix=/kafkacruisecontrol/*
+    webserver.http.address=0.0.0.0
+    webserver.http.cors.enabled=false
+    webserver.http.port=9090
+    webserver.request.maxBlockTimeMs=10000
+    webserver.session.maxExpiryTimeMs=60000
+    webserver.session.path=/
+    webserver.ui.diskpath=./cruise-control-ui/dist/
+    webserver.ui.urlprefix=/*
+    zookeeper.security.enabled=false
+    capacity.config.file=config/capacity.json
+  log4j.properties: |
+    appender.console.layout.pattern=[%d] %p %m (%c)%n
+    appender.console.layout.type=PatternLayout
+    appender.console.name=STDOUT
+    appender.console.type=Console
+    appender.kafkaCruiseControlAppender.fileName=${filename}/kafkacruisecontrol.log
+    appender.kafkaCruiseControlAppender.filePattern=${filename}/kafkacruisecontrol.log.%d{yyyy-MM-dd-HH}
+    appender.kafkaCruiseControlAppender.layout.pattern=[%d] %p %m (%c)%n
+    appender.kafkaCruiseControlAppender.layout.type=PatternLayout
+    appender.kafkaCruiseControlAppender.name=kafkaCruiseControlFile
+    appender.kafkaCruiseControlAppender.policies.time.interval=1
+    appender.kafkaCruiseControlAppender.policies.time.type=TimeBasedTriggeringPolicy
+    appender.kafkaCruiseControlAppender.policies.type=Policies
+    appender.kafkaCruiseControlAppender.type=RollingFile
+    appender.operationAppender.fileName=${filename}/kafkacruisecontrol-operation.log
+    appender.operationAppender.filePattern=${filename}/kafkacruisecontrol-operation.log.%d{yyyy-MM-dd}
+    appender.operationAppender.layout.pattern=[%d] %p [%c] %m %n
+    appender.operationAppender.layout.type=PatternLayout
+    appender.operationAppender.name=operationFile
+    appender.operationAppender.policies.time.interval=1
+    appender.operationAppender.policies.time.type=TimeBasedTriggeringPolicy
+    appender.operationAppender.policies.type=Policies
+    appender.operationAppender.type=RollingFile
+    appender.requestAppender.fileName=${filename}/kafkacruisecontrol-request.log
+    appender.requestAppender.filePattern=${filename}/kafkacruisecontrol-request.log.%d{yyyy-MM-dd-HH}
+    appender.requestAppender.layout.pattern=[%d] %p %m (%c)%n
+    appender.requestAppender.layout.type=PatternLayout
+    appender.requestAppender.name=requestFile
+    appender.requestAppender.policies.time.interval=1
+    appender.requestAppender.policies.time.type=TimeBasedTriggeringPolicy
+    appender.requestAppender.policies.type=Policies
+    appender.requestAppender.type=RollingFile
+    appenders=console, kafkaCruiseControlAppender, operationAppender, requestAppender
+    logger.CruiseControlPublicAccessLogger.appenderRef.requestAppender.ref=requestFile
+    logger.CruiseControlPublicAccessLogger.level=info
+    logger.CruiseControlPublicAccessLogger.name=CruiseControlPublicAccessLogger
+    logger.cruisecontrol.appenderRef.kafkaCruiseControlAppender.ref=kafkaCruiseControlFile
+    logger.cruisecontrol.level=info
+    logger.cruisecontrol.name=com.linkedin.kafka.cruisecontrol
+    logger.detector.appenderRef.kafkaCruiseControlAppender.ref=kafkaCruiseControlFile
+    logger.detector.level=info
+    logger.detector.name=com.linkedin.kafka.cruisecontrol.detector
+    logger.operationLogger.appenderRef.operationAppender.ref=operationFile
+    logger.operationLogger.level=info
+    logger.operationLogger.name=operationLogger
+    property.filename=./logs
+    rootLogger.appenderRef.console.ref=STDOUT
+    rootLogger.appenderRef.kafkaCruiseControlAppender.ref=kafkaCruiseControlFile
+    rootLogger.appenderRefs=console, kafkaCruiseControlAppender
+    rootLogger.level=INFO
+kind: ConfigMap
+metadata:
+  labels:
+  annotations:
+  name: cruisecontrol-properties

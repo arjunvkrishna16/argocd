@@ -1,44 +1,63 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kafka-cruis-control
+  labels:
+    app.kubernetes.io/component: kafka-cruise-control
+    app.kubernetes.io/name: kafka-cruise-control
+  name: kafka-cruise-control
+  namespace: kafka
 spec:
-  minReadySeconds: 1
-  revisionHistoryLimit: 2
-  progressDeadlineSeconds: 60
-  strategy:
-    rollingUpdate:
-      maxUnavailable: 0
-    type: RollingUpdate
+  replicas: 1
   selector:
     matchLabels:
-      app: kafka-cruis-control
+      app.kubernetes.io/component: kafka-cruise-control
+      app.kubernetes.io/name: kafka-cruise-control
+  strategy:
+    type: Recreate
   template:
     metadata:
-      annotations:
       labels:
-        app: kafka-cruis-control
+        app.kubernetes.io/component: kafka-cruise-control
+        app.kubernetes.io/name: kafka-cruise-control
     spec:
+      automountServiceAccountToken: true
       containers:
-      - name: kafka-cruis-control
-        image: arjunvkrishna/cruise-control:1.0.4
-        imagePullPolicy: IfNotPresent
-        ports:
-        - name: ui
-          containerPort: 8090
-          protocol: TCP
-        - name: api
-          containerPort: 42675
-          protocol: TCP
-        env:
-        - name: PODINFO_UI_COLOR
-          value: "#34577c"
-          initialDelaySeconds: 5
-          timeoutSeconds: 5
+      - env:
+        - name: BOOTSTRAP_SERVERS
+          value: kafka.kafka.svc.cluster.local:9092
+        image: eu.gcr.io/inse-management-prod/r-and-d/kafka-cruise-control:v1
+        imagePullPolicy: Always
+        name: kafka-cruise-control
         resources:
           limits:
-            cpu: 2000m
-            memory: 512Mi
+            cpu: 1
+            memory: 1Gi
           requests:
             cpu: 100m
-            memory: 64Mi
+            memory: 512Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /cruise-control/config/cruisecontrol.properties
+          name: config-volume
+          subPath: cruisecontrol.properties
+        - mountPath: /cruise-control/config/capacity.json
+          name: config-volume
+          subPath: capacity.json
+        - mountPath: /cruise-control/config/clusterConfigs.json
+          name: config-volume
+          subPath: clusterConfigs.json
+        - mountPath: /cruise-control/config/log4j.properties
+          name: config-volume
+          subPath: log4j.properties
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        inseinc.com/workload-type: virgo-platform
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: cruisecontrol-properties
+        name: config-volume
