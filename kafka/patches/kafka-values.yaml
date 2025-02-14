@@ -1,0 +1,103 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kafka
+  namespace: flux-system
+spec:
+  values:
+    global:
+      security:
+        allowInsecureImages: true
+    controller:
+      extraConfig: |
+        auto.create.topics.enable=true
+        default.replication.factor=3
+        log.retention.hours=48
+        num.partitions=30
+        min.insync.replicas=2
+        compression.type=gzip
+      heapOpts: -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=65
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "500Mi"
+          ephemeral-storage: "200Mi"
+        limits:
+          cpu: "3"
+          memory: "6Gi"
+          ephemeral-storage: "10Gi"
+      replicaCount: 3
+      persistence:
+        size: 50Gi
+      nodeSelector:
+        inseinc.com/workload-type: virgo-platform
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: controller-eligible
+
+    broker:
+      extraConfig: |
+        auto.create.topics.enable=true
+        default.replication.factor=3
+        log.retention.hours=48
+        num.partitions=30
+        min.insync.replicas=2
+        compression.type=gzip
+        metric.reporters=com.linkedin.kafka.cruisecontrol.metricsreporter.CruiseControlMetricsReporter
+        cruise.control.metrics.reporter.bootstrap.servers=kafka.kafka.svc.cluster.local:9092
+        cruise.control.metrics.reporter.metrics.topic=__CruiseControlMetrics
+      extraVolumeMounts:
+        - mountPath: /opt/bitnami/kafka/libs/cruise-control-metrics-reporter-2.5.141.jar
+          name: cruise-control-metrics-reporter
+          subPath: cruise-control-metrics-reporter-2.5.141.jar
+      extraVolumes:
+        - name: cruise-control-metrics-reporter
+          configMap:
+            name: cruise-control-metrics-reporter
+            defaultMode: 420
+      heapOpts: -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=65
+      resources:
+        requests:
+          cpu: "1"
+          memory: "2Gi"
+          ephemeral-storage: "200Mi"
+        limits:
+          cpu: "3"
+          memory: "10Gi"
+          ephemeral-storage: "10Gi"
+      replicaCount: 3
+      persistence:
+        size: 300Gi
+      nodeSelector:
+        inseinc.com/workload-type: virgo-platform
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: broker
+      autoscaling: 
+        enabled: true 
+        hpa: 
+          enabled: true 
+          minReplicas: 3 
+          maxReplicas: 4 
+          targetCPU: 
+          targetMemory: 80
+      pdb:  
+        create: true
+        minAvailable: 2  
+
+    provisioning:
+      enabled: true
+      numPartitions: 30
+      replicationFactor: 3
+      topics:
+        - name: GamecycleClosedEvent
+          partitions: 30
+          replicationFactor: 3
